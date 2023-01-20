@@ -1,6 +1,6 @@
 # Requirements
 
-  * Python 3.7
+  * Python 3.8
 
 > This code makes use of the `f"..."` or [f-string
 > syntax](https://www.python.org/dev/peps/pep-0498/). This syntax was
