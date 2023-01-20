@@ -1,3 +1,5 @@
+#!/Library/Frameworks/Python.framework/Versions/3.8/bin/python3
+
 import sys
 
 from typing import (Callable)
@@ -13,16 +15,13 @@ def newtons_method(f, df, x_n, eps=EPSILON):
     n = 0
 
     next_x_n = x_n + 1000 * eps
-    while abs(x_n - next_x_n) > eps:
+    while abs(x_n - next_x_n) > eps and n < MAX_ITERATIONS:
+        n += 1
+
         x_n = next_x_n
         next_x_n = x_n - (f(x_n) / df(x_n))
 
-        if n >= MAX_ITERATIONS:
-            break
-
-        n += 1
-
-    return x_n
+    return n, x_n
 
 
 def main():
@@ -34,7 +33,7 @@ def main():
         sys.exit(1)
 
     except ValueError as error:
-        print("ERROR {0} is not a valid number".format(*sys.argv))
+        print("ERROR: {0} is not a valid number".format(*sys.argv))
         print("  " + str(error))
         sys.exit(2)
 
@@ -46,10 +45,11 @@ def main():
         return 2 * x
 
     try:
-        solution_newton = newtons_method(f, df, initial_guess)
+        num_iterations, solution_newton = newtons_method(f, df, initial_guess)
         fx_newton = f(solution_newton)
 
-        print("x = {:.4f} | f(x) = {:.4f}".format(solution_newton, fx_newton))
+        output_str = "x = {:.4f} | f(x) = {:.4f} | {} iterations"
+        print(output_str.format(solution_newton, fx_newton, num_iterations))
 
     except ZeroDivisionError as error:
         print(str(error))
@@ -57,4 +57,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
